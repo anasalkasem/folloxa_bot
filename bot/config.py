@@ -19,7 +19,7 @@ class Settings:
         if not self.openai_api_key:
             print("⚠️ OPENAI_API_KEY not found, please check Railway variables")
             # ضع مفتاح OpenAI الحقيقي هنا مؤقتاً
-            self.openai_api_key ="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"
+            self.openai_api_key ="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"
         
         # إعدادات أخرى
         self.site_url = os.getenv('SITE_URL', 'https://folloxa.com' )
