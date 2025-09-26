@@ -15,7 +15,7 @@ class Settings:
         if not self.bot_token:
             print("⚠️ BOT_TOKEN not found, please check Railway variables")
             # ضع توكن البوت الحقيقي هنا مؤقتاً
-            self.bot_token = "8213247929:AAGw985WK5N_fENl2Bi7TtAHnIWyAG6O9Ms"            
+            self.bot_token = "8213247929:AAEe8Bpkfri3l9H4kG-NwP9sEb_JyXBGw_k"            
         if not self.openai_api_key:
             print("⚠️ OPENAI_API_KEY not found, please check Railway variables")
             # ضع مفتاح OpenAI الحقيقي هنا مؤقتاً
