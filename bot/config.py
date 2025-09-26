@@ -1,29 +1,33 @@
 import os
-from dotenv import load_dotenv
-
-# تحميل القيم من ملف .env (للتطوير المحلي فقط)
-# على Railway، المتغيرات ستكون متاحة مباشرة من النظام
-load_dotenv()
+from openai import OpenAI
 
 class Settings:
-    def __init__(self):
-        # توكن البوت من تلغرام
-        self.bot_token: str = os.getenv("BOT_TOKEN")
-        # مفتاح OpenAI API
-        self.openai_api_key: str = os.getenv("OPENAI_API_KEY")
-        # رابط الموقع
-        self.site_url: str = os.getenv("SITE_URL", "https://folloxa.com")
-        # رقم الواتساب للتواصل
-        self.contact_whatsapp: str = os.getenv("CONTACT_WHATSAPP", "0017163036301")
-        # معرف التلغرام للتواصل
-        self.contact_telegram: str = os.getenv("CONTACT_TELEGRAM", "folloxa_admin")
-
-        # تحقق إذا القيم انقرأت بشكل صحيح
+    def __init__(self ):
+        # قراءة متغيرات البيئة مع قيم افتراضية للاختبار
+        self.bot_token = os.getenv('BOT_TOKEN')
+        self.openai_api_key = os.getenv('OPENAI_API_KEY')
+        
+        # طباعة للتشخيص
+        print(f"🔍 BOT_TOKEN exists: {bool(self.bot_token)}")
+        print(f"🔍 OPENAI_API_KEY exists: {bool(self.openai_api_key)}")
+        
+        # إذا لم توجد المتغيرات، استخدم قيم مؤقتة
         if not self.bot_token:
-            raise ValueError("❌ BOT_TOKEN غير موجود في متغيرات البيئة. تأكد من إعداده في Railway.")
-
+            print("⚠️ BOT_TOKEN not found, please check Railway variables")
+            # ضع توكن البوت الحقيقي هنا مؤقتاً
+            self.bot_token = "8213247929:AAGw985WK5N_fENl2Bi7TtAHnIWyAG6O9Ms"            
         if not self.openai_api_key:
-            raise ValueError("❌ OPENAI_API_KEY غير موجود في متغيرات البيئة. تأكد من إعداده في Railway.")
+            print("⚠️ OPENAI_API_KEY not found, please check Railway variables")
+            # ضع مفتاح OpenAI الحقيقي هنا مؤقتاً
+            self.openai_api_key = "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"
+        
+        # إعدادات أخرى
+        self.site_url = os.getenv('SITE_URL', 'https://folloxa.com' )
+        self.contact_whatsapp = os.getenv('CONTACT_WHATSAPP', '0017163036301')
+        self.contact_telegram = os.getenv('CONTACT_TELEGRAM', 'folloxa_admin')
+        
+        # إعداد OpenAI
+        self.openai_client = OpenAI(api_key=self.openai_api_key)
 
-# كائن واحد جاهز للاستخدام
+# إنشاء كائن الإعدادات
 settings = Settings()
