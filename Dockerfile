@@ -7,4 +7,4 @@ COPY . .
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 RUN chmod +x start.sh
-CMD ["./start.sh"]
+CMD ["python", "-m", "bot.main"]
