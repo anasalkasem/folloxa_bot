@@ -3,35 +3,39 @@ from openai import OpenAI
 
 class Settings:
     def __init__(self):
-        # قراءة متغيرات البيئة بطرق متعددة
-        self.bot_token = (
-            os.getenv('BOT_TOKEN') or 
-            os.getenv('bot_token') or 
-            "8213247929:AAEe8Bpkfri3l9H4kG-NwP9sEb_JyXBGw_k"
-        )
+        # قراءة متغيرات البيئة بشكل آمن
+        self.bot_token = os.getenv('BOT_TOKEN')
+        self.openai_api_key = os.getenv('OPENAI_API_KEY')
         
-        self.openai_api_key = (
-            os.getenv('OPENAI_API_KEY') or 
-            os.getenv('openai_api_key') or 
-            "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"
-        )
+        # التحقق من وجود المتغيرات المطلوبة
+        if not self.bot_token:
+            raise ValueError("❌ BOT_TOKEN is required! Please set it in Railway Variables.")
         
-        # طباعة للتشخيص
+        if not self.openai_api_key:
+            raise ValueError("❌ OPENAI_API_KEY is required! Please set it in Railway Variables.")
+        
+        # طباعة للتشخيص (بدون كشف المفاتيح)
         print(f"🔍 BOT_TOKEN found: {bool(self.bot_token)}")
         print(f"🔍 OPENAI_API_KEY found: {bool(self.openai_api_key)}")
+        print(f"🔑 BOT_TOKEN starts with: {self.bot_token[:10]}...")
+        print(f"🔑 OPENAI_API_KEY starts with: {self.openai_api_key[:10]}...")
         
         # إعدادات أخرى
         self.site_url = os.getenv('SITE_URL', 'https://folloxa.com' )
         self.contact_whatsapp = os.getenv('CONTACT_WHATSAPP', '0017163036301')
         self.contact_telegram = os.getenv('CONTACT_TELEGRAM', 'folloxa_admin')
         
-        # إعداد OpenAI
+        # إعداد OpenAI بشكل آمن
         try:
             self.openai_client = OpenAI(api_key=self.openai_api_key)
-            print("✅ OpenAI client initialized successfully")
+            
+            # اختبار الاتصال
+            models = self.openai_client.models.list()
+            print(f"✅ OpenAI client initialized successfully - {len(models.data)} models available")
+            
         except Exception as e:
             print(f"❌ Failed to initialize OpenAI client: {str(e)}")
-            self.openai_client = None
+            raise ValueError(f"OpenAI initialization failed: {str(e)}")
 
 # إنشاء كائن الإعدادات
 settings = Settings()
